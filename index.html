@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div id="player">
+      <h1>Player</h1>
+      <p>Select your weapon</p>
+      <a id="rock" class="player btn-floating btn-large waves-effect waves-light"><i class="fas fa-hand-rock"></i></a>
+      <a id="paper" class="player btn-floating btn-large waves-effect waves-light"><i class="fas fa-hand-paper"></i></a>
+      <a id="scissors" class="player btn-floating btn-large waves-effect waves-light red"><i class="fas fa-hand-scissors"></i></a>
+    </div>
+    <div id="opponent">
+      <h1>Opponent</h1>
+      <a id="rock" class="opponent btn-floating btn-large red"><i class="fas fa-hand-rock"></i></a>
+      <a id="paper" class="opponent btn-floating btn-large"><i class="fas fa-hand-paper"></i></a>
+      <a id="scissors" class="opponent btn-floating btn-large"><i class="fas fa-hand-scissors"></i></a>
+    </div>
+    <div class="winner">
+      <h1>Scores</h1>
+      <p id="score"></p>
+      <a id="reset" class="btn-floating btn-large"><i class="fas fa-sync-alt"></i></a>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script type="text/javascript">
+    //Reset button 
+    var reset = document.getElementById('reset');
+
+    reset.addEventListener('click', resetTheScore);
+
+    function resetTheScore() {
+      score.innerHTML = '';
+    }
+
+    //Wins / loses / ties
+    var score = document.getElementById('score');
+
+    function win() {
+      score.innerHTML += '<span><i class="fas fa-check"></i> </span>'
+    }
+
+    function lose() {
+      score.innerHTML += '<span><i class="fas fa-times"></i> </span>'
+    }
+
+    function tie() {
+      score.innerHTML += '<span><i class="fas fa-minus"></i> </span>'
+    }
+
+    //Get player choices
+    var playerButton = document.getElementsByClassName('player');
+
+    //Get opponent choices
+    var opponentButton = document.getElementsByClassName('opponent');
+
+    for (var i = 0; i < playerButton.length; i++) {
+      playerButton[i].addEventListener('click', rockIt)
+    }
+
+    function rockIt(event) {
+      //Remove all the selected red classes from buttons
+      for (var i = 0; i < playerButton.length; i++) {
+        playerButton[i].classList.remove('red');
+      }
+      for (var i = 0; i < opponentButton.length; i++) {
+        opponentButton[i].classList.remove('red');
+      }
+      //Add the red class to the selected player button
+      event.target.classList.add('red');
+
+      //Get random number for opponent
+      // 0 is rock
+      // 1 is paper
+      // 2 is scissors
+      var randomNumber = Math.floor(Math.random() * 3);
+
+      //Assign the computer selection
+      if (randomNumber == 0) {
+        opponentButton[0].classList.add('red');
+      } else if (randomNumber == 1) {
+        opponentButton[1].classList.add('red');
+      } else {
+        opponentButton[2].classList.add('red');
+      }
+      // console.log(event.target.id);
+
+      if (event.target.id == 'rock' && randomNumber == 2) {
+        win();
+      } else if (event.target.id == 'paper' && randomNumber == 0) {
+        win();
+      } else if (event.target.id == 'scissors' && randomNumber == 1) {
+        win();
+      } else if (event.target.id == 'rock' && randomNumber == 0) {
+        tie();
+      } else if (event.target.id == 'paper' && randomNumber == 1) {
+        tie();
+      } else if (event.target.id == 'scissors' && randomNumber == 2) {
+        tie();
+      } else {
+        lose();
+      }
+    }
+  </script>
+</body>
+
+</html>
